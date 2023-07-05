@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="64834786-ae25-4ade-927e-1cd58837ad78" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<http:listener-config name="HTTP_Listener_config1" doc:name="HTTP Listener config" doc:id="a431b275-97fb-443a-afe6-89e6d168983c" basePath="/api" >
+		<http:listener-connection host="0.0.0.0" port="8083" />
+	</http:listener-config>
+	<flow name="demo1Flow" doc:id="d7677ed1-1827-40eb-97a6-6cd5febd954e" >
+		<http:listener doc:name="Listener" doc:id="7b62ae01-97bc-42d8-a979-4f275edee34c" config-ref="HTTP_Listener_config1" path="/demo"/>
+		<set-payload value='#["Hi This is a common mule application"]' doc:name="Set Payload" doc:id="163d12dc-8ed8-4362-bdc6-37d99d699023" />
+		<error-handler >
+			<on-error-continue enableNotifications="true" logException="true" doc:name="On Error Continue" doc:id="289f0bff-a971-410c-b9a2-31d64e349c1a" type="ANY">
+				<set-payload value="#[payload]" doc:name="Set Payload" doc:id="840888fd-a7c1-4d4c-8c27-a32e92d05ac2" />
+			</on-error-continue>
+		</error-handler>
+	</flow>
+</mule>
